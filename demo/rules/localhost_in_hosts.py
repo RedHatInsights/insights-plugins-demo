@@ -21,11 +21,9 @@ def localhost_in_hosts(local, shared):
     """
     hosts = shared[Hosts]
 
-    if 'localhost' in hosts.all_names:
-        return
-
-    return make_response(
-        ERROR_KEY,
-        message=MESSAGE,
-        hosts_defined=hosts.all_names,
-    )
+    if 'localhost' not in hosts.all_names:
+        return make_response(
+            ERROR_KEY,
+            message=MESSAGE,
+            hosts_defined=hosts.all_names,
+        )
