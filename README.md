@@ -80,8 +80,9 @@ py.test insights
 ## We also have lovely documentation!
 
 Insights Core comes with a lot of documentation about the framework -
-particularly the parsers and combiners that rules use to gather data.  You can
-build this using:
+particularly the parsers and combiners that rules use to gather data.  It can
+be found over on [readthedocs](http://insights-core.readthedocs.io/en/latest/),
+or you can build it using:
 
 ```
 cd insights-core/docs
