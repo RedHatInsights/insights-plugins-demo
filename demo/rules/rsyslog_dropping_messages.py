@@ -83,7 +83,6 @@ def find_rate_limiting_params(conf):
     """
     if hasattr(conf, 'config_items') and hasattr(conf, 'config_val'):
         # New style RsyslogConf object - get data directly
-        print "Burst:", conf.config_val('SystemLogRateLimitBurst', '200')
         return (
             int(conf.config_val('SystemLogRateLimitInterval', '5')),
             int(conf.config_val('SystemLogRateLimitBurst', '200'))
@@ -109,7 +108,6 @@ def rsyslog_dropping_messages(local, shared):
     """
     msgs = shared[Messages]
     drops_by_process = msgs.dropped_messages
-    print "got drops:", drops_by_process
 
     # If we have an empty dict, because no messages were dropped, skip out now.
     if not drops_by_process:
@@ -119,7 +117,6 @@ def rsyslog_dropping_messages(local, shared):
     # file
     interval, limit = find_rate_limiting_params(shared[RsyslogConf])
     max_burst = max(p['max'] for p in drops_by_process.values())
-    print "max_burst:", max_burst, "limit:", limit
     if max_burst <= limit:
         # Simple logic - do not recommend reducing the burst lines
         return
