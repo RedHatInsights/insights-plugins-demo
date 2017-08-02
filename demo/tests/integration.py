@@ -1,9 +1,10 @@
-from insights.tests import integration
+from insights.tests import integration, integrate
 import pytest
 
 
-def test_integration(module, test_func, input_data, expected):
-    integration.integration_test(module, test_func, input_data, expected)
+def test_integration(module, comparison_func, input_data, expected):
+    actual = integrate(input_data, module)
+    comparison_func(actual, expected)
 
 
 def pytest_generate_tests(metafunc):
