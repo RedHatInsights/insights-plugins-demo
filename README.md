@@ -22,6 +22,7 @@ rules.
 mkdir insights
 cd insights
 git clone https://github.com/RedhatInsights/insights-core.git
+git clone https://github.com/RedhatInsights/insights-cli.git
 git clone https://github.com/RedHatInsights/insights-plugins-demo.git
 ```
 ### Set up the VirtualEnv
@@ -43,6 +44,7 @@ you want to write and test rules):
 
 ```
 pip install -e insights-core[develop]
+pip install -e insights-cli
 pip install -e insights-plugins-demo
 ```
 
@@ -91,3 +93,42 @@ make html
 
 You can then open ``insights-core/docs/_build/html/index.html`` in your
 favourite browser to read more about the framework.
+
+---
+
+# What is this rule repository for?
+
+There are three main objectives for this rule repository:
+
+1. Copy it to create your own repository of rules!
+2. Read the existing rules to see how to write your own.
+3. Test your Insights set up with rules that are know to work.
+
+All good.  Here are a few things that it is not:
+
+a. A comprehensive test of every feature and corner of the core framework.
+   It has its own internal test suite.
+b. Any kind of 'definitive' collection of rules.  We'd much rather people
+   publish their own rule sets.
+c. A 'best practice' guide for how to write rules or what rules to write.
+   Treat it more like a tutorial than a comprehensive manual.
+
+Of course, we still welcome any bug fixes or suggestions for improvement :-)
+
+# OK, so how do I use this in practice?
+
+Firstly, you need to install the components of Insights.  The easiest way to
+do that is to use the Insights Installer:
+
+https://github.com/RedHatInsights/insights-installer
+
+The install script in that repository will install the Insights core, as well
+as this rule repository.
+
+Once installed, you can then run the Insights CLI, giving it this demo rule
+set as the rule module to use:
+
+```bash
+source bin/activate
+insights-cli / --plugin-modules demo.rules
+```
