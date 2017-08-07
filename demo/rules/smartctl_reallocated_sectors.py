@@ -19,6 +19,10 @@ def smartctl_reallocated_sectors(local, shared):
     we can just check for whether the drive reports a reallocated sector
     count.
     """
+    # The shared data from the SMARTctl parser is a list of devices, because
+    # the spec is based on the combination of a CommandSpec that uses a
+    # matched pattern, and a PatternSpec.  Both of these reeturn multiple
+    # drive information objects in a list, so we have to iterate across that:
     for drive in shared[SMARTctl]:
         if 'Reallocated_Sector_Ct' not in drive.attributes:
             return
