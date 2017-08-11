@@ -23,7 +23,7 @@ def high_swap_usage(local, shared):
     if mem.swap.total == 0:
         return
 
-    # swap.used = swap.free + swap.cached
+    # swap.used = swap.total - (swap.free + swap.cached)
     # MemInfo reports all memory usage in bytes.
     if float(mem.swap.used) / float(mem.swap.total) > 0.5:
         return make_response(
