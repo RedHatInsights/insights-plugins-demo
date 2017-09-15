@@ -15,7 +15,7 @@ MESSAGE = 'localhost not found in /etc/hosts'
 
 
 @rule(requires=[Hosts])
-def localhost_in_hosts(local, shared):
+def localhost_in_hosts(shared):
     """
     If 'localhost' is not in the set of host names, then inform the user.
     """
