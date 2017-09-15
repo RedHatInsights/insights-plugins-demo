@@ -7,7 +7,7 @@ many messages at once.
 Written by Paul Wayper
 
 """
-from insights.core.plugins import make_response, rule
+from insights.core.plugins import make_response, condition, rule
 from insights.parsers.messages import Messages
 from insights.parsers.rsyslog_conf import RsyslogConf
 
@@ -75,12 +75,14 @@ def find_dropped_messages(log):
 Messages.scan('dropped_messages', find_dropped_messages)
 
 
-def find_rate_limiting_params(conf):
+@condition(requires=[RsyslogConf])
+def find_rate_limiting_params(shared):
     """
     Try to determine the 'SystemLogRateLimitInterval' and
     'SystemLogRateLimitBurst' parameters.  They default to 5 seconds for the
     interval and 200 messages for the burst rate.
     """
+    conf = shared[RsyslogConf]
     if hasattr(conf, 'config_items') and hasattr(conf, 'config_val'):
         # New style RsyslogConf object - get data directly
         return (
@@ -101,8 +103,8 @@ def find_rate_limiting_params(conf):
     )
 
 
-@rule(requires=[Messages, RsyslogConf])
-def rsyslog_dropping_messages(local, shared):
+@rule([Messages, find_rate_limiting_params])
+def rsyslog_dropping_messages(shared):
     """
     Use the file_dropped_messages scan to pick up if any
     """
@@ -115,7 +117,7 @@ def rsyslog_dropping_messages(local, shared):
 
     # Try to determine the defaults for rate limiting from the configuration
     # file
-    interval, limit = find_rate_limiting_params(shared[RsyslogConf])
+    interval, limit = shared[find_rate_limiting_params]
     max_burst = max(p['max'] for p in drops_by_process.values())
     if max_burst <= limit:
         # Simple logic - do not recommend reducing the burst lines
