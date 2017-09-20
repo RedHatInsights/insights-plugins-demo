@@ -85,7 +85,7 @@ $SystemLogRateLimitBurst 10
 """
 
 
-@archive_provider(rsyslog_dropping_messages)
+@archive_provider(rsyslog_dropping_messages.rsyslog_dropping_messages)
 def integration_tests():
     # Test that should pass
     data = InputData("good_test_1")

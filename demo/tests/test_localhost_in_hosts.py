@@ -20,7 +20,7 @@ HOSTS_WITHOUT_LOCALHOST = """
 """
 
 
-@archive_provider(localhost_in_hosts)
+@archive_provider(localhost_in_hosts.localhost_in_hosts)
 def integration_tests():
     # Test that should pass
     data = InputData("localhost_in_hosts")
