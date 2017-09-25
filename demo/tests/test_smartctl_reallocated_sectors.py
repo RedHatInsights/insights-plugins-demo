@@ -104,21 +104,21 @@ If Selective self-test is pending on power-up, resume after 0 minute delay.
 """
 
 BAD_TEST_CONTENT = """
-smartctl 6.2 2013-07-26 r3841 [x86_64-linux-3.10.0-514.10.2.el7.x86_64] (local build)
+smartctl 6.2 2013-07-26 r3841 [x86_64-linux-3.10.0-514.26.1.el7.x86_64] (local build)
 Copyright (C) 2002-13, Bruce Allen, Christian Franke, www.smartmontools.org
 
 === START OF INFORMATION SECTION ===
-Device Model:     INTEL SSDSC2BB150G7
-Serial Number:    PHDV64130020150MGN
-LU WWN Device Id: 5 5cd2e4 14d4debe0
-Firmware Version: N2010101
-User Capacity:    150,039,945,216 bytes [150 GB]
+Model Family:     Western Digital Caviar Green (AF, SATA 6Gb/s)
+Device Model:     WDC WD20EARX-00PASB0
+Serial Number:    WD-WMAZA6913949
+LU WWN Device Id: 5 0014ee 206a9fd73
+Firmware Version: 51.0AB51
+User Capacity:    2,000,398,934,016 bytes [2.00 TB]
 Sector Sizes:     512 bytes logical, 4096 bytes physical
-Rotation Rate:    Solid State Device
-Device is:        Not in smartctl database [for details use: -P showall]
-ATA Version is:   ACS-3 (unknown minor revision code: 0x006d)
-SATA Version is:  SATA 3.1, 6.0 Gb/s (current: 6.0 Gb/s)
-Local Time is:    Tue Aug  1 10:16:36 2017 EDT
+Device is:        In smartctl database [for details use: -P show]
+ATA Version is:   ATA8-ACS (minor revision not indicated)
+SATA Version is:  SATA 3.0, 6.0 Gb/s (current: 6.0 Gb/s)
+Local Time is:    Tue Sep 26 09:12:51 2017 AEST
 SMART support is: Available - device has SMART capability.
 SMART support is: Enabled
 
@@ -126,19 +126,21 @@ SMART support is: Enabled
 SMART overall-health self-assessment test result: PASSED
 
 General SMART Values:
-Offline data collection status:  (0x00) Offline data collection activity
-                                        was never started.
-                                        Auto Offline Data Collection: Disabled.
+Offline data collection status:  (0x82) Offline data collection activity
+                                        was completed without error.
+                                        Auto Offline Data Collection: Enabled.
 Self-test execution status:      (   0) The previous self-test routine completed
                                         without error or no self-test has ever
                                         been run.
 Total time to complete Offline
-data collection:                (    0) seconds.
+data collection:                (40200) seconds.
 Offline data collection
-capabilities:                    (0x79) SMART execute Offline immediate.
-                                        No Auto Offline data collection support.
+capabilities:                    (0x7b) SMART execute Offline immediate.
+                                        Auto Offline data collection on/off support.
                                         Suspend Offline collection upon new
                                         command.
+                                        Offline surface scan supported.
+                                        Self-test supported.
                                         Offline surface scan supported.
                                         Self-test supported.
                                         Conveyance Self-test supported.
@@ -149,52 +151,42 @@ SMART capabilities:            (0x0003) Saves SMART data before entering
 Error logging capability:        (0x01) Error logging supported.
                                         General Purpose Logging supported.
 Short self-test routine
-recommended polling time:        (   1) minutes.
+recommended polling time:        (   2) minutes.
 Extended self-test routine
-recommended polling time:        (   2) minutes.
+recommended polling time:        ( 387) minutes.
 Conveyance self-test routine
-recommended polling time:        (   2) minutes.
-SCT capabilities:              (0x003d) SCT Status supported.
-                                        SCT Error Recovery Control supported.
+recommended polling time:        (   5) minutes.
+SCT capabilities:              (0x3035) SCT Status supported.
                                         SCT Feature Control supported.
                                         SCT Data Table supported.
 
-SMART Attributes Data Structure revision number: 1
+SMART Attributes Data Structure revision number: 16
 Vendor Specific SMART Attributes with Thresholds:
 ID# ATTRIBUTE_NAME          FLAG     VALUE WORST THRESH TYPE      UPDATED  WHEN_FAILED RAW_VALUE
-  5 Reallocated_Sector_Ct   0x0032   099   099   000    Old_age   Always       -       4
-  9 Power_On_Hours          0x0032   100   100   000    Old_age   Always       -       4394
- 12 Power_Cycle_Count       0x0032   100   100   000    Old_age   Always       -       20
-170 Unknown_Attribute       0x0033   099   099   010    Pre-fail  Always       -       0
-171 Unknown_Attribute       0x0032   100   100   000    Old_age   Always       -       4
-172 Unknown_Attribute       0x0032   100   100   000    Old_age   Always       -       0
-174 Unknown_Attribute       0x0032   100   100   000    Old_age   Always       -       13
-175 Program_Fail_Count_Chip 0x0033   100   100   010    Pre-fail  Always       -       189500766412
-183 Runtime_Bad_Block       0x0032   100   100   000    Old_age   Always       -       0
-184 End-to-End_Error        0x0033   100   100   090    Pre-fail  Always       -       0
-187 Reported_Uncorrect      0x0032   100   100   000    Old_age   Always       -       0
-190 Airflow_Temperature_Cel 0x0022   066   055   000    Old_age   Always       -       34 (Min/Max 30/45)
-192 Power-Off_Retract_Count 0x0032   100   100   000    Old_age   Always       -       13
-194 Temperature_Celsius     0x0022   100   100   000    Old_age   Always       -       34
-197 Current_Pending_Sector  0x0012   100   100   000    Old_age   Always       -       0
-199 UDMA_CRC_Error_Count    0x003e   100   100   000    Old_age   Always       -       0
-225 Unknown_SSD_Attribute   0x0032   100   100   000    Old_age   Always       -       44898
-226 Unknown_SSD_Attribute   0x0032   100   100   000    Old_age   Always       -       450
-227 Unknown_SSD_Attribute   0x0032   100   100   000    Old_age   Always       -       76
-228 Power-off_Retract_Count 0x0032   100   100   000    Old_age   Always       -       263641
-232 Available_Reservd_Space 0x0033   099   099   010    Pre-fail  Always       -       0
-233 Media_Wearout_Indicator 0x0032   100   100   000    Old_age   Always       -       0
-234 Unknown_Attribute       0x0032   100   100   000    Old_age   Always       -       0
-241 Total_LBAs_Written      0x0032   100   100   000    Old_age   Always       -       44898
-242 Total_LBAs_Read         0x0032   100   100   000    Old_age   Always       -       144156
-243 Unknown_Attribute       0x0032   100   100   000    Old_age   Always       -       144361
+  1 Raw_Read_Error_Rate     0x002f   200   200   051    Pre-fail  Always       -       12
+  3 Spin_Up_Time            0x0027   173   170   021    Pre-fail  Always       -       6350
+  4 Start_Stop_Count        0x0032   100   100   000    Old_age   Always       -       87
+  5 Reallocated_Sector_Ct   0x0033   197   197   140    Pre-fail  Always       -       144
+  7 Seek_Error_Rate         0x002e   200   198   000    Old_age   Always       -       0
+  9 Power_On_Hours          0x0032   070   070   000    Old_age   Always       -       22009
+ 10 Spin_Retry_Count        0x0032   100   253   000    Old_age   Always       -       0
+ 11 Calibration_Retry_Count 0x0032   100   253   000    Old_age   Always       -       0
+ 12 Power_Cycle_Count       0x0032   100   100   000    Old_age   Always       -       84
+192 Power-Off_Retract_Count 0x0032   200   200   000    Old_age   Always       -       61
+193 Load_Cycle_Count        0x0032   001   001   000    Old_age   Always       -       2551803
+194 Temperature_Celsius     0x0022   127   092   000    Old_age   Always       -       23
+196 Reallocated_Event_Count 0x0032   151   151   000    Old_age   Always       -       49
+197 Current_Pending_Sector  0x0032   200   200   000    Old_age   Always       -       0
+198 Offline_Uncorrectable   0x0030   200   200   000    Old_age   Offline      -       0
+199 UDMA_CRC_Error_Count    0x0032   200   200   000    Old_age   Always       -       3
+200 Multi_Zone_Error_Rate   0x0008   200   200   000    Old_age   Offline      -       2
 
 SMART Error Log Version: 1
 No Errors Logged
 
 SMART Self-test log structure revision number 1
-No self-tests have been logged.  [To run self-tests, use: smartctl -t]
-
+Num  Test_Description    Status                  Remaining  LifeTime(hours)  LBA_of_first_error
+# 1  Short offline       Completed without error       00%     18211         -
 
 SMART Selective self-test log data structure revision number 1
  SPAN  MIN_LBA  MAX_LBA  CURRENT_TEST_STATUS
@@ -210,19 +202,19 @@ If Selective self-test is pending on power-up, resume after 0 minute delay.
 """
 
 
-@archive_provider(smartctl_reallocated_sectors)
+@archive_provider(smartctl_reallocated_sectors.smartctl_reallocated_sectors)
 def integration_tests():
     # Test that should pass
-    data = InputData("good_test_1")
+    data = InputData("No drive errors")
     data.add('smartctl', GOOD_TEST_CONTENT, path="sos_commands/ata/smartctl_-a_.dev.sdd")
     yield data, []
 
     # Test that should fail
-    data = InputData("bad_test_1")
+    data = InputData("Reallocated sectors")
     data.add('smartctl', BAD_TEST_CONTENT, path="sos_commands/ata/smartctl_-a_.dev.sda")
     expected = make_response(
         smartctl_reallocated_sectors.ERROR_KEY,
         device='/dev/sda',
-        reallocated_sectors=4
+        reallocated_sectors=144
     )
     yield data, [expected]
