@@ -11,7 +11,7 @@ ERROR_KEY = 'SMARTCTL_REALLOCATED_SECTORS'
 
 
 @rule(requires=[SMARTctl])
-def smartctl_reallocated_sectors(local, shared):
+def smartctl_reallocated_sectors(shared):
     """
     Report problems if the device has an Attributes section (SAN devices
     don't, for example), and the Reallocated Sector Count raw value is
