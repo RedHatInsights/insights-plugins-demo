@@ -138,7 +138,7 @@ DirectMap2M:     7858176 kB
 """
 
 
-@archive_provider(high_swap_usage)
+@archive_provider(high_swap_usage.high_swap_usage)
 def integration_tests():
     # Test that should pass
     data = InputData("swap_usage_ok")
