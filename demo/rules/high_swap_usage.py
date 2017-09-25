@@ -12,7 +12,7 @@ ERROR_MESSAGE = 'Swap usage over 50%, please check process memory usage'
 
 
 @rule(requires=[MemInfo])
-def high_swap_usage(local, shared):
+def high_swap_usage(shared):
     """
     Detect swap memory in use, and if the amount of swap free is less than
     half the total, and swap is actually in use (i.e. total swap > 0 Kb),
