@@ -48,7 +48,7 @@ PS_TESTS = [
 ]
 
 
-@archive_provider(rule)
+@archive_provider(rule.report)
 def integration_tests():
     for i, v in enumerate(PS_TESTS):
         input_value, output_value = v

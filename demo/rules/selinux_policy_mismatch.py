@@ -18,17 +18,17 @@ from insights.parsers.sestatus import SEStatus
 ERROR_KEY = 'SELINUX_POLICY_MISMATCH'
 
 
-@rule(requires=[SEStatus, SelinuxConfig, InstalledRpms])
-def report(local, shared):
-    selinux_enabled = shared[SEStatus].data['selinux_status'] == 'enabled'
-    selinux_enforcing = shared[SEStatus].data['current_mode'] == 'enforcing'
-    selinux_type = shared[SelinuxConfig].data.get('SELINUXTYPE')
+@rule(SEStatus, SelinuxConfig, InstalledRpms)
+def report(sestatus, selinuxconfig, installedrpms):
+    selinux_enabled = sestatus.data['selinux_status'] == 'enabled'
+    selinux_enforcing = sestatus.data['current_mode'] == 'enforcing'
+    selinux_type = selinuxconfig.data.get('SELINUXTYPE')
 
     if selinux_type is None:
         return
 
-    policy_rpm = shared[InstalledRpms].get_max('selinux-policy')
-    policy_type_rpm = shared[InstalledRpms].get_max('selinux-policy-{}'.format(selinux_type))
+    policy_rpm = installedrpms.get_max('selinux-policy')
+    policy_type_rpm = installedrpms.get_max('selinux-policy-{}'.format(selinux_type))
 
     if policy_rpm is None or policy_type_rpm is None:
         return

@@ -18,20 +18,19 @@ CHECKED_BROWSERS = frozenset(['firefox', 'chrome', 'chrome-sandbox',
                               'chromium-browser', 'chromium-browse'])
 
 
-@condition(requires=[PsAuxcww])
-def check_running_browsers(local, shared):
+@condition(PsAuxcww)
+def check_running_browsers(psauxcww):
     """
     Returns list of running browser processes.
     """
-    return [p for p in shared[PsAuxcww] if p["COMMAND"] in CHECKED_BROWSERS]
+    return [p for p in psauxcww if p["COMMAND"] in CHECKED_BROWSERS]
 
 
-@rule(requires=[check_running_browsers])
-def check_services_running(local, shared):
+@rule(check_running_browsers)
+def report(running_browsers):
     """
     Collect all running browser processes, if any of them is ran by root user, issue warning.
     """
-    running_browsers = shared[check_running_browsers]
     running_browsers_as_root = set(p["COMMAND"] for p in running_browsers if p["USER"] == "root")
 
     if 'chromium-browse' in running_browsers_as_root:

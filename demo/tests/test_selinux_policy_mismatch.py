@@ -161,7 +161,7 @@ def test_noselinux():
         tests.append((input_data, response))
 
 
-@archive_provider(rule)
+@archive_provider(rule.report)
 def integration_tests():
     test_valid_selinux()
     test_nonmatching_selinux()
