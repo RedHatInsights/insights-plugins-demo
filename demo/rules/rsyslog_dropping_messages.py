@@ -75,14 +75,13 @@ def find_dropped_messages(log):
 Messages.scan('dropped_messages', find_dropped_messages)
 
 
-@condition(requires=[RsyslogConf])
-def find_rate_limiting_params(shared):
+@condition([RsyslogConf])
+def find_rate_limiting_params(conf):
     """
     Try to determine the 'SystemLogRateLimitInterval' and
     'SystemLogRateLimitBurst' parameters.  They default to 5 seconds for the
     interval and 200 messages for the burst rate.
     """
-    conf = shared[RsyslogConf]
     if hasattr(conf, 'config_items') and hasattr(conf, 'config_val'):
         # New style RsyslogConf object - get data directly
         return (
@@ -104,11 +103,10 @@ def find_rate_limiting_params(shared):
 
 
 @rule([Messages, find_rate_limiting_params])
-def rsyslog_dropping_messages(shared):
+def rsyslog_dropping_messages(msgs, rate_params):
     """
     Use the file_dropped_messages scan to pick up if any
     """
-    msgs = shared[Messages]
     drops_by_process = msgs.dropped_messages
 
     # If we have an empty dict, because no messages were dropped, skip out now.
@@ -117,7 +115,7 @@ def rsyslog_dropping_messages(shared):
 
     # Try to determine the defaults for rate limiting from the configuration
     # file
-    interval, limit = shared[find_rate_limiting_params]
+    interval, limit = rate_params
     max_burst = max(p['max'] for p in drops_by_process.values())
     if max_burst <= limit:
         # Simple logic - do not recommend reducing the burst lines

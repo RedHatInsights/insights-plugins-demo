@@ -14,12 +14,11 @@ ERROR_KEY = 'LOCALHOST_IN_HOSTS'
 MESSAGE = 'localhost not found in /etc/hosts'
 
 
-@rule(requires=[Hosts])
-def localhost_in_hosts(shared):
+@rule([Hosts])
+def localhost_in_hosts(hosts):
     """
     If 'localhost' is not in the set of host names, then inform the user.
     """
-    hosts = shared[Hosts]
 
     if 'localhost' not in hosts.all_names:
         return make_response(

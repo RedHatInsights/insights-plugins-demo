@@ -10,8 +10,8 @@ from insights.parsers.smartctl import SMARTctl
 ERROR_KEY = 'SMARTCTL_REALLOCATED_SECTORS'
 
 
-@rule(requires=[SMARTctl])
-def smartctl_reallocated_sectors(shared):
+@rule([SMARTctl])
+def smartctl_reallocated_sectors(smart_data):
     """
     Report problems if the device has an Attributes section (SAN devices
     don't, for example), and the Reallocated Sector Count raw value is
@@ -23,7 +23,7 @@ def smartctl_reallocated_sectors(shared):
     # the spec is based on the combination of a CommandSpec that uses a
     # matched pattern, and a PatternSpec.  Both of these reeturn multiple
     # drive information objects in a list, so we have to iterate across that:
-    for drive in shared[SMARTctl]:
+    for drive in smart_data:
         if 'Reallocated_Sector_Ct' not in drive.attributes:
             return
 
