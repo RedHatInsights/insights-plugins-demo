@@ -95,7 +95,7 @@ def test_valid_selinux():
         input_data.add('sestatus', SESTATUS_OK)
         input_data.add('installed-rpms', first + '\n' + second)
         input_data.add('selinux-config', SELINUX_CONFIG.format(selinux_type))
-        response = integrate(input_data, rule)
+        response = integrate(input_data, rule.report)
         assert response == []
         tests.append((input_data, response))
 
@@ -107,7 +107,7 @@ def test_nonmatching_selinux():
         input_data.add('sestatus', SESTATUS_OK)
         input_data.add('installed-rpms', first + '\n' + second)
         input_data.add('selinux-config', SELINUX_CONFIG.format(selinux_type))
-        response = integrate(input_data, rule)
+        response = integrate(input_data, rule.report)
         assert 'policy_rpm' in response[0]
         assert 'policy_type_rpm' in response[0]
         assert 'policy_type' in response[0]
@@ -124,7 +124,7 @@ def test_invalid_selinux():
         input_data.add('sestatus', SESTATUS_OK)
         input_data.add('installed-rpms', first + '\n' + second)
         input_data.add('selinux-config', SELINUX_CONFIG.format(selinux_type))
-        response = integrate(input_data, rule)
+        response = integrate(input_data, rule.report)
         assert response == []
         tests.append((input_data, response))
 
@@ -136,7 +136,7 @@ def test_invalid_type():
         input_data.add('sestatus', SESTATUS_OK)
         input_data.add('installed-rpms', first + '\n' + second)
         input_data.add('selinux-config', '')
-        response = integrate(input_data, rule)
+        response = integrate(input_data, rule.report)
         assert response == []
         tests.append((input_data, response))
 
@@ -148,7 +148,7 @@ def test_noselinux():
         input_data.add('sestatus', SESTATUS_DISABLED)
         input_data.add('installed-rpms', first + '\n' + second)
         input_data.add('selinux-config', SELINUX_CONFIG.format(selinux_type))
-        response = integrate(input_data, rule)
+        response = integrate(input_data, rule.report)
         assert response == []
         tests.append((input_data, response))
 
