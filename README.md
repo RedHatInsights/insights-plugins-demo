@@ -33,10 +33,11 @@ source bin/activate
 ```
 
 If you've only got Python 2.7 available, you will need to install Sphinx
-version 1.6.1 as follows:
+version 1.6.1 and cryptography version 2.0 as follows:
 
 ```
 pip install Sphinx==1.6.1
+pip install cryptography==2.0
 ```
 
 Now install the rest of Insights including the development tools (because
