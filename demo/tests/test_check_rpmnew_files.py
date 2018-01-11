@@ -1,4 +1,4 @@
-from telemetry.rules.plugins import check_rpmnew_files
+from demo.rules import check_rpmnew_files
 from insights.core.plugins import make_response
 from insights.tests import InputData, archive_provider
 
@@ -30,7 +30,7 @@ drwxr-xr-x.  2 root root     4096 Nov  3  2016 krb5.conf.d
 """.strip()
 
 
-@archive_provider(check_rpmnew_files)
+@archive_provider(check_rpmnew_files.check_rpmnew_files)
 def integration_tests():
     # Test that should pass
     data = InputData("good_test_1")

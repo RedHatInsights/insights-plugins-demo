@@ -11,15 +11,13 @@ from insights.parsers.ls_etc import LsEtc
 ERROR_KEY = 'CHECK_RPMNEW_FILES'
 
 
-@rule(requires=[LsEtc])
-def check_rpmnew_files(local, shared):
+@rule([LsEtc])
+def check_rpmnew_files(etc):
     """
     Find all files that end with '.rpmnew'.  Then check to see if they have
     an equivalent file without the '.rpmnew' extension.  Record the size and
     date of each pair.  Report any found.
     """
-    etc = shared[LsEtc]
-
     rpmnew_files = []
     for f in etc.files_of('/etc'):
         if not f.endswith('.rpmnew'):
