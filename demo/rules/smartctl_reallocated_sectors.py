@@ -23,17 +23,21 @@ def smartctl_reallocated_sectors(smart_data):
     # the spec is based on the combination of a CommandSpec that uses a
     # matched pattern, and a PatternSpec.  Both of these reeturn multiple
     # drive information objects in a list, so we have to iterate across that:
+    drive_data = {}
     for drive in smart_data:
         if 'Reallocated_Sector_Ct' not in drive.attributes:
-            return
+            continue
 
         realloc_sector_ct = drive.attributes['Reallocated_Sector_Ct']['raw_value']
         if not realloc_sector_ct.isdigit():
             # We don't know what to do if this isn't a number.
-            return
+            continue
         if int(realloc_sector_ct) > 0:
-            return make_response(
-                ERROR_KEY,
-                device=drive.device,
-                reallocated_sectors=int(realloc_sector_ct)
-            )
+            drive_data[drive.device] == int(realloc_sector_ct)
+
+    if drive_data:
+        return make_response(
+            ERROR_KEY,
+            message=MESSAGE,
+            drive_data=drive_data,
+        )
