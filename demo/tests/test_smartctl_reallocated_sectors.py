@@ -210,10 +210,22 @@ def integration_tests():
     yield data, []
 
     # Test that should fail
+    # One drive:
     data = InputData("Reallocated sectors")
     data.add('smartctl', BAD_TEST_CONTENT, path="sos_commands/ata/smartctl_-a_.dev.sda")
     expected = make_response(
         smartctl_reallocated_sectors.ERROR_KEY,
         drive_data={'/dev/sda': 144},
+    )
+    yield data, [expected]
+
+    # One drive good, two drives bad
+    data = InputData("Reallocated sectors")
+    data.add('smartctl', GOOD_TEST_CONTENT, path="sos_commands/ata/smartctl_-a_.dev.sdd")
+    data.add('smartctl', BAD_TEST_CONTENT, path="sos_commands/ata/smartctl_-a_.dev.sda")
+    data.add('smartctl', BAD_TEST_CONTENT, path="sos_commands/ata/smartctl_-a_.dev.sdb")
+    expected = make_response(
+        smartctl_reallocated_sectors.ERROR_KEY,
+        drive_data={'/dev/sda': 144, '/dev/sdb': 144},
     )
     yield data, [expected]

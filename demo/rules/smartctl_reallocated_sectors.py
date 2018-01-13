@@ -8,6 +8,7 @@ from insights.core.plugins import make_response, rule
 from insights.parsers.smartctl import SMARTctl
 
 ERROR_KEY = 'SMARTCTL_REALLOCATED_SECTORS'
+MESSAGE = 'Drives reporting reallocated sectors - the drives may fail soon'
 
 
 @rule([SMARTctl])
