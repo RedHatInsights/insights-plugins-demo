@@ -75,7 +75,7 @@ def find_dropped_messages(log):
 Messages.scan('dropped_messages', find_dropped_messages)
 
 
-@condition([RsyslogConf])
+@condition(RsyslogConf)
 def find_rate_limiting_params(conf):
     """
     Try to determine the 'SystemLogRateLimitInterval' and
@@ -88,7 +88,7 @@ def find_rate_limiting_params(conf):
     )
 
 
-@rule([Messages, find_rate_limiting_params])
+@rule(Messages, find_rate_limiting_params)
 def rsyslog_dropping_messages(msgs, rate_params):
     """
     Use the file_dropped_messages scan to pick up if any
