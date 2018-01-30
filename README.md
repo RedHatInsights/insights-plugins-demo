@@ -22,7 +22,6 @@ rules.
 mkdir insights
 cd insights
 git clone https://github.com/RedhatInsights/insights-core.git
-git clone https://github.com/RedhatInsights/insights-cli.git
 git clone https://github.com/RedHatInsights/insights-plugins-demo.git
 ```
 ### Set up the VirtualEnv
@@ -45,7 +44,6 @@ you want to write and test rules):
 
 ```
 pip install -e insights-core[develop]
-pip install -e insights-cli
 pip install -e insights-plugins-demo
 ```
 
@@ -121,7 +119,7 @@ Of course, we still welcome any bug fixes or suggestions for improvement :-)
 Firstly, you need to install the components of Insights.  The easiest way to
 do that is to use the Insights Installer:
 
-https://github.com/RedHatInsights/insights-installer
+https://github.com/PaulWay/insights-installer
 
 The install script in that repository will install the Insights core, as well
 as this rule repository.
