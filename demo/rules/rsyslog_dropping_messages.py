@@ -82,23 +82,9 @@ def find_rate_limiting_params(conf):
     'SystemLogRateLimitBurst' parameters.  They default to 5 seconds for the
     interval and 200 messages for the burst rate.
     """
-    if hasattr(conf, 'config_items') and hasattr(conf, 'config_val'):
-        # New style RsyslogConf object - get data directly
-        return (
-            int(conf.config_val('SystemLogRateLimitInterval', '5')),
-            int(conf.config_val('SystemLogRateLimitBurst', '200'))
-        )
-
-    # Old style RsyslogConf object - search through the lines
-    conf_re = re.compile(r'\$(?P<param>SystemLogRateLimit(?:Interval|Burst))\s+(?P<value>\d+)')
-    config_vals = {}
-    for line in conf.data:
-        match = conf_re.search(line)
-        if match:
-            config_vals[match.group('param')] = match.group('value')
     return (
-        int(config_vals.get('SystemLogRateLimitInterval', '5')),
-        int(config_vals.get('SystemLogRateLimitBurst', '200'))
+        int(conf.config_val('SystemLogRateLimitInterval', '5')),
+        int(conf.config_val('SystemLogRateLimitBurst', '200'))
     )
 
 
