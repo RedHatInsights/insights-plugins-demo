@@ -124,10 +124,52 @@ https://github.com/PaulWay/insights-installer
 The install script in that repository will install the Insights core, as well
 as this rule repository.
 
-Once installed, you can then run the Insights CLI, giving it this demo rule
-set as the rule module to use:
+Once installed, you can then run the basic information collection tool,
+giving it this demo rule set as the rule module to use:
 
 ```bash
 source bin/activate
-insights-cli / --plugin-modules demo.rules
+collect.py -p demo
 ```
+
+This will create an 'output' directory and will write a chunk of JSON
+corresponding to the output of each part of the parsing and rule evaluation
+process.  A typical output directory will have the following subdirectories:
+
+* `datasource` - the original data sources (command outputs and files)
+* `parser` - data sources parsed into structured information
+* `combiner` - parser outputs combined into synthetic information
+* `rule` - rule outputs
+
+Reading the output of the rule using a formatted JSON parser gives the rule
+results in the `results.object` property.  The full output is similar to:
+
+```json
+{
+  "errors": null,
+  "name": "demo.rules.localhost_in_hosts.localhost_in_hosts",
+  "is_rule": true,
+  "results": {
+    "object": {
+      "message": "localhost not found in /etc/hosts",
+      "type": "rule",
+      "hosts_defined": [
+        "example",
+        "home-server",
+      ],
+      "error_key": "LOCALHOST_IN_HOSTS"
+    },
+    "type": null
+  },
+  "time": 9.012222290039062e-05,
+  "dr_type": "insights.core.plugins.rule"
+}
+```
+
+The useful features here are:
+
+* The `time` property gives the time taken to evaluate the rule.
+* The `results.object.error_key` property gives the specific error key
+  returned in this rule.
+* The other parameters returned in the `make_response()` call are listed in
+  the `results.object` properties.
