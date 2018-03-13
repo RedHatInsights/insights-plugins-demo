@@ -216,6 +216,7 @@ def integration_tests():
     data.add(Specs.smartctl, BAD_TEST_CONTENT, path="sos_commands/ata/smartctl_-a_.dev.sda")
     expected = make_response(
         smartctl_reallocated_sectors.ERROR_KEY,
+        message=smartctl_reallocated_sectors.MESSAGE,
         drive_data={'/dev/sda': 144},
     )
     yield data, expected
@@ -227,6 +228,7 @@ def integration_tests():
     data.add(Specs.smartctl, BAD_TEST_CONTENT, path="sos_commands/ata/smartctl_-a_.dev.sdb")
     expected = make_response(
         smartctl_reallocated_sectors.ERROR_KEY,
+        message=smartctl_reallocated_sectors.MESSAGE,
         drive_data={'/dev/sda': 144, '/dev/sdb': 144},
     )
     yield data, expected
