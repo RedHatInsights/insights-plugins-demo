@@ -1,6 +1,7 @@
 from demo.rules import rsyslog_dropping_messages
 from insights.core.plugins import make_response
 from insights.tests import InputData, archive_provider
+from insights.specs import Specs
 
 MESSAGES = """
 Jun 15 13:36:36 example ntpd_intres[2719]: host name not found: ntp1.example.com
@@ -89,19 +90,19 @@ $SystemLogRateLimitBurst 10
 def integration_tests():
     # Test that should pass
     data = InputData("good_test_1")
-    data.add('messages', MESSAGES)
-    data.add('rsyslog.conf', RSYSLOG_CONF_DEFAULT_LIMITS)
-    yield data, []
+    data.add(Specs.messages, MESSAGES)
+    data.add(Specs.rsyslog_conf, RSYSLOG_CONF_DEFAULT_LIMITS)
+    yield data, None
 
     data = InputData("good_test_2")
-    data.add('messages', MESSAGES_WITH_FEW_DROPS)
-    data.add('rsyslog.conf', RSYSLOG_CONF_DEFAULT_LIMITS)
-    yield data, []
+    data.add(Specs.messages, MESSAGES_WITH_FEW_DROPS)
+    data.add(Specs.rsyslog_conf, RSYSLOG_CONF_DEFAULT_LIMITS)
+    yield data, None
 
     # Test that should fail
     data = InputData("bad_default_limit_high_drops")
-    data.add('messages', MESSAGES_WITH_MANY_DROPS)
-    data.add('rsyslog.conf', RSYSLOG_CONF_DEFAULT_LIMITS)
+    data.add(Specs.messages, MESSAGES_WITH_MANY_DROPS)
+    data.add(Specs.rsyslog_conf, RSYSLOG_CONF_DEFAULT_LIMITS)
     expected = make_response(
         rsyslog_dropping_messages.ERROR_KEY,
         drops_by_process={'55082': {'count': 725, 'max': 245, 'lines': 3}},
@@ -110,11 +111,11 @@ def integration_tests():
         new_limit=245,
         new_config="$SysLogRateLimitBurst {m}".format(m=245),
     )
-    yield data, [expected]
+    yield data, expected
 
     data = InputData("bad_low_limit_high_drops")
-    data.add('messages', MESSAGES_WITH_MANY_DROPS)
-    data.add('rsyslog.conf', RSYSLOG_CONF_LOW_BURST)
+    data.add(Specs.messages, MESSAGES_WITH_MANY_DROPS)
+    data.add(Specs.rsyslog_conf, RSYSLOG_CONF_LOW_BURST)
     expected = make_response(
         rsyslog_dropping_messages.ERROR_KEY,
         drops_by_process={'55082': {'count': 725, 'max': 245, 'lines': 3}},
@@ -123,11 +124,11 @@ def integration_tests():
         new_limit=245,
         new_config="$SysLogRateLimitBurst {m}".format(m=245),
     )
-    yield data, [expected]
+    yield data, expected
 
     data = InputData("bad_low_limit_few_drops")
-    data.add('messages', MESSAGES_WITH_FEW_DROPS)
-    data.add('rsyslog.conf', RSYSLOG_CONF_LOW_BURST)
+    data.add(Specs.messages, MESSAGES_WITH_FEW_DROPS)
+    data.add(Specs.rsyslog_conf, RSYSLOG_CONF_LOW_BURST)
     expected = make_response(
         rsyslog_dropping_messages.ERROR_KEY,
         drops_by_process={'sshd': {'count': 23, 'max': 12, 'lines': 2}},
@@ -136,4 +137,4 @@ def integration_tests():
         new_limit=12,
         new_config="$SysLogRateLimitBurst {m}".format(m=12),
     )
-    yield data, [expected]
+    yield data, expected

@@ -1,6 +1,7 @@
 from demo.rules import high_swap_usage
 from insights.core.plugins import make_response
 from insights.tests import InputData, archive_provider
+from insights.specs import Specs
 
 SWAP_MEMORY_OK = """
 MemTotal:        8062472 kB
@@ -142,16 +143,16 @@ DirectMap2M:     7858176 kB
 def integration_tests():
     # Test that should pass
     data = InputData("swap_usage_ok")
-    data.add('meminfo', SWAP_MEMORY_OK)
-    yield data, []
+    data.add(Specs.meminfo, SWAP_MEMORY_OK)
+    yield data, None
 
     data = InputData("no_swap_in_use")
-    data.add('meminfo', NO_SWAP_MEMORY)
-    yield data, []
+    data.add(Specs.meminfo, NO_SWAP_MEMORY)
+    yield data, None
 
     # Test that should fail
     data = InputData("swap_usage_high")
-    data.add('meminfo', SWAP_MEMORY_HIGH_USAGE)
+    data.add(Specs.meminfo, SWAP_MEMORY_HIGH_USAGE)
     # Remember, all values reported by MemInfo are in bytes
     expected = make_response(
         high_swap_usage.ERROR_KEY,
@@ -160,4 +161,4 @@ def integration_tests():
         swap_free=969012 * 1024,
         swap_cached=550700 * 1024,
     )
-    yield data, [expected]
+    yield data, expected

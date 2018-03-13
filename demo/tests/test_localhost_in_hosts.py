@@ -1,6 +1,7 @@
 from demo.rules import localhost_in_hosts
 from insights.core.plugins import make_response
 from insights.tests import InputData, archive_provider
+from insights.specs import Specs
 
 HOSTS_WITH_LOCALHOST = """
 127.0.0.1 localhost localhost.localdomain localhost4 localhost4.localdomain4
@@ -24,16 +25,16 @@ HOSTS_WITHOUT_LOCALHOST = """
 def integration_tests():
     # Test that should pass
     data = InputData("localhost_in_hosts")
-    data.add('hosts', HOSTS_WITH_LOCALHOST)
-    yield data, []
+    data.add(Specs.hosts, HOSTS_WITH_LOCALHOST)
+    yield data, None
 
     # Test that should fail
     data = InputData("localhost_not_in_hosts")
-    data.add('hosts', HOSTS_WITHOUT_LOCALHOST)
+    data.add(Specs.hosts, HOSTS_WITHOUT_LOCALHOST)
     expected = make_response(
         localhost_in_hosts.ERROR_KEY,
         message=localhost_in_hosts.MESSAGE,
         hosts_defined=set({'fte.example.com', 'nonlocal.example.com',
                            'nonlocal2.fte.example.com'})
     )
-    yield data, [expected]
+    yield data, expected

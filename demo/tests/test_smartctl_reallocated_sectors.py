@@ -1,6 +1,7 @@
 from demo.rules import smartctl_reallocated_sectors
 from insights.core.plugins import make_response
 from insights.tests import InputData, archive_provider
+from insights.specs import Specs
 
 GOOD_TEST_CONTENT = """
 smartctl 5.43 2012-06-30 r3573 [x86_64-linux-2.6.32-642.3.1.el6.x86_64] (local build)
@@ -206,26 +207,26 @@ If Selective self-test is pending on power-up, resume after 0 minute delay.
 def integration_tests():
     # Test that should pass
     data = InputData("No drive errors")
-    data.add('smartctl', GOOD_TEST_CONTENT, path="sos_commands/ata/smartctl_-a_.dev.sdd")
-    yield data, []
+    data.add(Specs.smartctl, GOOD_TEST_CONTENT, path="sos_commands/ata/smartctl_-a_.dev.sdd")
+    yield data, None
 
     # Test that should fail
     # One drive:
     data = InputData("Reallocated sectors")
-    data.add('smartctl', BAD_TEST_CONTENT, path="sos_commands/ata/smartctl_-a_.dev.sda")
+    data.add(Specs.smartctl, BAD_TEST_CONTENT, path="sos_commands/ata/smartctl_-a_.dev.sda")
     expected = make_response(
         smartctl_reallocated_sectors.ERROR_KEY,
         drive_data={'/dev/sda': 144},
     )
-    yield data, [expected]
+    yield data, expected
 
     # One drive good, two drives bad
     data = InputData("Reallocated sectors")
-    data.add('smartctl', GOOD_TEST_CONTENT, path="sos_commands/ata/smartctl_-a_.dev.sdd")
-    data.add('smartctl', BAD_TEST_CONTENT, path="sos_commands/ata/smartctl_-a_.dev.sda")
-    data.add('smartctl', BAD_TEST_CONTENT, path="sos_commands/ata/smartctl_-a_.dev.sdb")
+    data.add(Specs.smartctl, GOOD_TEST_CONTENT, path="sos_commands/ata/smartctl_-a_.dev.sdd")
+    data.add(Specs.smartctl, BAD_TEST_CONTENT, path="sos_commands/ata/smartctl_-a_.dev.sda")
+    data.add(Specs.smartctl, BAD_TEST_CONTENT, path="sos_commands/ata/smartctl_-a_.dev.sdb")
     expected = make_response(
         smartctl_reallocated_sectors.ERROR_KEY,
         drive_data={'/dev/sda': 144, '/dev/sdb': 144},
     )
-    yield data, [expected]
+    yield data, expected

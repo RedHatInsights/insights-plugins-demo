@@ -1,6 +1,7 @@
 from demo.rules import check_rpmnew_files
 from insights.core.plugins import make_response
 from insights.tests import InputData, archive_provider
+from insights.specs import Specs
 
 DIR_HEADER = """
 /etc:
@@ -34,12 +35,12 @@ drwxr-xr-x.  2 root root     4096 Nov  3  2016 krb5.conf.d
 def integration_tests():
     # Test that should pass
     data = InputData("good_test_1")
-    data.add('ls_etc', DIR_HEADER + GOOD_TEST_CONTENT)
-    yield data, []
+    data.add(Specs.ls_etc, DIR_HEADER + GOOD_TEST_CONTENT)
+    yield data, None
 
     # Test that should fail
     data = InputData("bad_test_1")
-    data.add('ls_etc', DIR_HEADER + BAD_TEST_CONTENT)
+    data.add(Specs.ls_etc, DIR_HEADER + BAD_TEST_CONTENT)
     expected = make_response(
         check_rpmnew_files.ERROR_KEY,
         files=[{
@@ -51,4 +52,4 @@ def integration_tests():
             'original_size': 771,
         }]
     )
-    yield data, [expected]
+    yield data, expected

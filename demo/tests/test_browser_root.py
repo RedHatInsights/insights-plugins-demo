@@ -1,6 +1,7 @@
 from demo.rules import browser_root as rule
 from insights.core.plugins import make_response
 from insights.tests import InputData, archive_provider
+from insights.specs import Specs
 
 
 ERROR_KEY = 'BROWSER_ROOT'
@@ -28,23 +29,23 @@ PS_GOOD_2 = 'root 18681  0.4  0.0 100388  1820 ?        S    14:01   0:00 xfsall
 PS_MISSING = ''
 
 PS_TESTS = [
-    (PS_AUXCWW_LINES.format(PS_BAD_1), [make_response(ERROR_KEY, browsers=['firefox'])]),
-    (PS_AUXCWW_LINES.format(PS_BAD_2), [make_response(ERROR_KEY, browsers=['chrome'])]),
-    (PS_AUXCWW_LINES.format(PS_BAD_3), [make_response(ERROR_KEY,
-                                                      browsers=['chrome-sandbox'])]),
-    (PS_AUXCWW_LINES.format(PS_BAD_4), [make_response(ERROR_KEY,
-                                                      browsers=['chromium-browser'])]),
-    (PS_AUXCWW_LINES.format(PS_BAD_5), [make_response(ERROR_KEY,
-                                                      browsers=['chrome', 'firefox'])]),
-    (PS_AUXCWW_LINES.format(PS_BAD_6), [make_response(ERROR_KEY,
-                                                      browsers=['chrome', 'firefox'])]),
-    (PS_AUXCWW_LINES.format(PS_BAD_7), [make_response(ERROR_KEY,
-                                                      browsers=['chromium-browser'])]),
-    (PS_AUXCWW_LINES.format(PS_BAD_8), [make_response(ERROR_KEY,
-                                                      browsers=['chromium-browser'])]),
-    (PS_AUXCWW_LINES.format(PS_GOOD_1), []),
-    (PS_AUXCWW_LINES.format(PS_GOOD_2), []),
-    (PS_AUXCWW_LINES.format(PS_MISSING), []),
+    (PS_AUXCWW_LINES.format(PS_BAD_1), make_response(ERROR_KEY, browsers=['firefox'])),
+    (PS_AUXCWW_LINES.format(PS_BAD_2), make_response(ERROR_KEY, browsers=['chrome'])),
+    (PS_AUXCWW_LINES.format(PS_BAD_3), make_response(ERROR_KEY,
+                                                     browsers=['chrome-sandbox'])),
+    (PS_AUXCWW_LINES.format(PS_BAD_4), make_response(ERROR_KEY,
+                                                     browsers=['chromium-browser'])),
+    (PS_AUXCWW_LINES.format(PS_BAD_5), make_response(ERROR_KEY,
+                                                     browsers=['chrome', 'firefox'])),
+    (PS_AUXCWW_LINES.format(PS_BAD_6), make_response(ERROR_KEY,
+                                                     browsers=['chrome', 'firefox'])),
+    (PS_AUXCWW_LINES.format(PS_BAD_7), make_response(ERROR_KEY,
+                                                     browsers=['chromium-browser'])),
+    (PS_AUXCWW_LINES.format(PS_BAD_8), make_response(ERROR_KEY,
+                                                     browsers=['chromium-browser'])),
+    (PS_AUXCWW_LINES.format(PS_GOOD_1), None),
+    (PS_AUXCWW_LINES.format(PS_GOOD_2), None),
+    (PS_AUXCWW_LINES.format(PS_MISSING), None),
 ]
 
 
@@ -52,4 +53,4 @@ PS_TESTS = [
 def integration_tests():
     for i, v in enumerate(PS_TESTS):
         input_value, output_value = v
-        yield InputData(i).add("ps_auxcww", input_value), output_value
+        yield InputData(i).add(Specs.ps_auxcww, input_value), output_value
