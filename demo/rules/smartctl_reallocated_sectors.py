@@ -34,7 +34,7 @@ def smartctl_reallocated_sectors(smart_data):
             # We don't know what to do if this isn't a number.
             continue
         if int(realloc_sector_ct) > 0:
-            drive_data[drive.device] == int(realloc_sector_ct)
+            drive_data[drive.device] = int(realloc_sector_ct)
 
     if drive_data:
         return make_response(
